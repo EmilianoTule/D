@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para Dani</title>
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Dancing+Script:wght@700&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rojo-pasion: #8b0000;
+            --beige-vintage: #fdf5e6;
+            --img-noah: url('j.jpeg');
+        }
+
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #000;
+            overflow: hidden;
+            font-family: 'Bebas Neue', sans-serif;
+        }
+
+        .fondo-fijo {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), var(--img-noah);
+            background-size: cover;
+            background-position: center;
+            z-index: -1;
+            transition: transform 3s ease, filter 3s ease;
+        }
+
+        .interfaz-album {
+            text-align: center;
+            z-index: 10;
+        }
+
+        .dedicatoria-superior {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(2.5rem, 6vw, 4.2rem);
+            color: var(--beige-vintage);
+            margin-bottom: 25px;
+            text-shadow: 2px 2px 10px rgba(0,0,0,0.8);
+        }
+
+        .album-cover {
+            width: 280px;
+            height: 280px;
+            background: url('14.jpg') center center no-repeat;
+            background-size: cover;
+            border: 5px solid white;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            margin: 0 auto;
+            transition: transform 0.5s;
+        }
+
+        .pantalla-carta {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            display: none;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 100;
+            padding: 20px;
+            /* Se eliminó el fondo rgba negro para mantener el fondo de la página visible */
+            backdrop-filter: blur(5px);
+        }
+
+        #texto-lyrics {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            color: #ffffff;
+            text-transform: uppercase;
+            text-align: center;
+            text-shadow: 0 0 20px rgba(255,255,255,0.5);
+            transition: all 0.4s ease;
+            max-width: 90%;
+            opacity: 0;
+        }
+
+        .seccion-final {
+            display: none;
+            opacity: 0;
+            transition: opacity 2s ease;
+            width: 100%;
+            max-width: 800px;
+            text-align: center;
+        }
+
+        .poema-cursivo {
+            font-family: 'Dancing Script', cursive;
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            color: white;
+            line-height: 1.5;
+            text-align: center;
+            margin-bottom: 40px;
+            text-shadow: 2px 2px 15px rgba(0,0,0,0.8);
+        }
+
+        .pregunta {
+            font-family: 'Great Vibes', cursive;
+            font-size: clamp(3rem, 9vw, 4.5rem); /* Aumentado para distinguir */
+            color: var(--beige-vintage);
+            margin-top: 50px; /* Más separación del poema */
+            text-shadow: 0 0 15px var(--rojo-pasion), 2px 2px 5px #000;
+            animation: latido 1.5s infinite;
+        }
+
+        @keyframes latido {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .btn-si {
+            background: var(--rojo-pasion);
+            color: white;
+            border: 2px solid white;
+            padding: 12px 40px;
+            border-radius: 50px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            font-family: 'Dancing Script', cursive;
+            margin-top: 25px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="fondo-fijo" id="bg"></div>
+
+    <audio id="audioFondo">
+        <source src="video.mp4" type="audio/mp4">
+    </audio>
+
+    <audio id="audioPoema">
+        <source src="audio2.mp4" type="audio/mpeg">
+    </audio>
+
+    <div class="interfaz-album" id="inicio" onclick="abrirCarta()">
+        <div class="dedicatoria-superior">Para: Dani, mi razón de existir.</div>
+        <div class="album-cover"></div>
+        <p style="color: white; margin-top: 20px; font-size: 14px; opacity: 0.8; letter-spacing: 5px;">NUESTRA HISTORIA</p>
+    </div>
+
+    <div class="pantalla-carta" id="pantalla">
+        <div id="texto-lyrics"></div>
+
+        <div class="seccion-final" id="final">
+            <div class="poema-cursivo" id="maquina-escribir"></div>
+            
+            <div id="contenedor-pregunta" style="display: none;">
+                <div class="pregunta">¿Puedo ser tu San Valentín?</div>
+                <button class="btn-si" onclick="alert('Te veo el sabado a la 1:00 PM, FUTURA ESPOSAAA❤️')">¡SÍ! ❤️</button>
+            </div>
+        </div>
+    </div>
+
+<script>
+    const frases = [
+        { texto: "Andábamos sin buscarnos...", tiempo: 2200 },
+        { texto: "Aunque sabiendo que andábamos para encontrarnos.", tiempo: 2800 },
+        { texto: "Y aunque no creo en el amor a primera vista,", tiempo: 2500 },
+        { texto: "Creo en el querer a primera noche...", tiempo: 2500 },
+        { texto: "Y te dije que pasaría", tiempo: 1500 },
+        { texto: "porque sabía que sabías...", tiempo: 1500 },
+        { texto: "que sabía que querías!", tiempo: 2000 }
+    ];
+
+    const textoPoema = "Baby, tienes los únicos ojos que quiero ver en mis noches solitarias\nMe salvaste la vida, entonces estaré ahí cuando me quieras\nQué sé que te amaré toda la vida\nPensaré en los tiempos buenos que tuvimos\nY si te preguntas adónde estoy\nEstoy aquí, contigo.";
+
+    function abrirCarta() {
+        const audio = document.getElementById('audioFondo');
+        audio.play().catch(e => console.log("Audio 1 bloqueado"));
+
+        document.getElementById('bg').style.transform = "scale(1.1)";
+        document.getElementById('bg').style.filter = "blur(4px)";
+        document.getElementById('inicio').style.opacity = '0';
+        
+        setTimeout(() => {
+            document.getElementById('inicio').style.display = 'none';
+            document.getElementById('pantalla').style.display = 'flex';
+            animarLyrics(0);
+        }, 800);
+    }
+
+    function animarLyrics(index) {
+        const caja = document.getElementById('texto-lyrics');
+        if (index < frases.length) {
+            caja.innerText = frases[index].texto;
+            caja.style.opacity = 1;
+            setTimeout(() => {
+                caja.style.opacity = 0;
+                setTimeout(() => animarLyrics(index + 1), 500);
+            }, frases[index].tiempo);
+        } else {
+            caja.style.display = 'none';
+            iniciarPoemaFinal();
+        }
+    }
+
+    function iniciarPoemaFinal() {
+        document.getElementById('audioFondo').pause();
+        const audio2 = document.getElementById('audioPoema');
+        audio2.play().catch(e => console.log("Audio 2 bloqueado"));
+
+        const final = document.getElementById('final');
+        final.style.display = 'block';
+        setTimeout(() => final.style.opacity = '1', 100);
+
+        let i = 0;
+        const contenedor = document.getElementById('maquina-escribir');
+        
+        function escribir() {
+            if (i < textoPoema.length) {
+                let letra = textoPoema.charAt(i);
+                contenedor.innerHTML += (letra === "\n") ? "<br>" : letra;
+                i++;
+                setTimeout(escribir, 60);
+            } else {
+                document.getElementById('contenedor-pregunta').style.display = 'block';
+            }
+        }
+        escribir();
+    }
+</script>
+
+</body>
+</html>
